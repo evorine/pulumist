@@ -6,6 +6,13 @@ Pulumist doesn't need to generate types for every provider, as it uses dynamic r
 
 > The name "Pulumist" is a portmanteau of "Pulumi" and "Mistwrite". Mistwrite was our in-house attempt to provide a infrastructure-as-code library in Rust for our closed-source new project, but development of cloud providers was slow and cumbersome therefore, we decided to use Pulumi as a backend and provide a Rust interface to it. We wanted to keep the name Mistwrite live. In a near future, we plan to opensource Mistwrite as well.
 
+## Requirements
+
+- Rust: MSRV 1.88
+- Go: 1.20 or later
+- Pulumi CLI: 3.0 or later
+- protoc
+
 ## Architecture
 
 Pulumist provides a high-level interface to Pulumi's Automation API through a FFI bridge to Go. The architecture consists of several layers:
@@ -46,4 +53,4 @@ Ownership rules:
 - Rust allocates memory for parameters passed to Go
 - Go must not store pointers to Rust-allocated memory
 
-The data is serialized using protobuf.
+The data is serialized using protobuf. The protobuf definitions are defined under `proto/*.proto` directory and are compiled to Rust and Go code using `protoc`.

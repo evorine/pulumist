@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "pulumist-core",
+    "pulumist-ffi",
+]
+resolver = "3"
+
+[workspace.dependencies]
