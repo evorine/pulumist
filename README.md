@@ -2,7 +2,9 @@
 
 Pulumist is a Rust library that provides Foreign Function Interface (FFI) bindings to Pulumi through Go, allowing you to manage infrastructure using Rust without needing to generate types for every resource.
 
-> The name "Pulumist" is a portmanteau of "Pulumi" and "Mistwrite". Mistwrite was our first in-house attempt to provide a infrastructure-as-code library in Rust, but development of providers was slow and cumbersome therefore, we decided to use Pulumi as a backend and provide a Rust interface to it. We wanted to keep the name Mistwrite live. In a near future, we plan to opensource Mistwrite as well.
+Pulumist doesn't need to generate types for every provider, as it uses dynamic resources. This means you can work with any Pulumi resource without needing to define a specific type for it in Rust.
+
+> The name "Pulumist" is a portmanteau of "Pulumi" and "Mistwrite". Mistwrite was our in-house attempt to provide a infrastructure-as-code library in Rust for our closed-source new project, but development of cloud providers was slow and cumbersome therefore, we decided to use Pulumi as a backend and provide a Rust interface to it. We wanted to keep the name Mistwrite live. In a near future, we plan to opensource Mistwrite as well.
 
 ## Architecture
 
