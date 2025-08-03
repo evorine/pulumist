@@ -20,6 +20,13 @@ import (
 	"unsafe"
 )
 
+// FreeAllocation frees memory allocated by Go.
+//
+//export FreeAllocation
+func FreeAllocation(obj *C.char) {
+	C.free(unsafe.Pointer(obj))
+}
+
 // PulumiDynamicPreview performs a dry-run preview of infrastructure changes.
 // This shows what resources would be created, updated, or deleted without actually making any changes.
 //
@@ -179,6 +186,21 @@ func PulumiDynamicGetOutputs(requestBytes *C.char, requestLen C.int) *C.char {
 	}
 
 	return createOkResponse(outputItems)
+}
+
+// PulumiDynamicRefresh updates the stack state to match actual cloud resources.
+// Refresh only updates state, it doesn't modify resources.
+//
+// Parameters:
+//   - @param request: Pointer to protobuf-encoded PulumiRequest data
+//   - @param length: Length of the request data in bytes
+//
+// Returns a pointer to C-allocated memory containing length-prefixed PulumiResponse.
+// The caller must free this memory using PulumiFree.
+//
+//export PulumiDynamicRefresh
+func PulumiDynamicRefresh(requestBytes *C.char, requestLen C.int) *C.char {
+	panic("not implemented")
 }
 
 func processPulumiRequest(requestBytes *C.char, requestLen C.int, isDryRun bool) *C.char {
@@ -451,13 +473,6 @@ func createOkResponse(outputs []*pb.OutputItem) *C.char {
 
 	// Convert to C-allocated memory that can cross the FFI boundary
 	return (*C.char)(C.CBytes(result))
-}
-
-// FreeAllocation frees memory allocated by Go.
-//
-//export FreeAllocation
-func FreeAllocation(obj *C.char) {
-	C.free(unsafe.Pointer(obj))
 }
 
 // This is a no-op main function to satisfy the compiler toolchain.

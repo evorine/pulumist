@@ -42,6 +42,13 @@ func RegisterEventCallback(callback C.event_callback) {
 	currentEventCallback = callback
 }
 
+// UnregisterEventCallback clears the currently registered event callback.
+//
+//export UnregisterEventCallback
+func UnregisterEventCallback() {
+	currentEventCallback = nil
+}
+
 // sendEvent serializes an event to protobuf and sends it to the registered host callback.
 // This enables real-time streaming of operation progress back to the host application.
 //
