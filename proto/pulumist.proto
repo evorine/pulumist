@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+package pulumist;
+
+option go_package = "github.com/evorine/pulumist";
+
+// Request message for Pulumi operations
+message PulumiRequest {
+  string working_dir = 1;
+  string stack_name = 2;
+  string project_name = 3;
+  repeated Resource resources = 4;
+  map<string, string> config = 5;
+
+  // Extended configuration options
+  PulumiConfiguration pulumi_config = 6;
+}
+
+// Extended Pulumi configuration
+message PulumiConfiguration {
+  // Secret management configuration
+  SecretsProvider secrets_provider = 1;
+
+  // Backend configuration
+  BackendConfig backend = 2;
+
+  // Environment overrides (instead of using env vars)
+  map<string, string> environment = 4;
+
+  // Pulumi home directory override
+  string pulumi_home = 5;
+
+  // Log level (debug, info, warn, error)
+  string log_level = 6;
+}
+
+message SecretsProvider {
+  oneof provider {
+    PassphraseProvider passphrase = 1;
+    CloudKmsProvider cloud_kms = 2;
+    LocalProvider local = 3;
+  }
+}
+
+message PassphraseProvider {
+  string passphrase = 1;
+}
+
+message CloudKmsProvider {
+  string provider_type = 1;  // "awskms", "azurekeyvault", "gcpkms"
+  string key_id = 2;         // KMS key identifier
+  map<string, string> credentials = 3;  // Provider-specific credentials
+}
+
+message LocalProvider {
+  // No encryption for local development
+}
+
+message BackendConfig {
+  oneof backend {
+    LocalBackend local = 1;
+    CloudBackend cloud = 2;
+    S3Backend s3 = 3;
+    AzureBlobBackend azure_blob = 4;
+  }
+}
+
+message LocalBackend {
+  string path = 1;
+}
+
+message CloudBackend {
+  string url = 1;
+  string api_token = 2;
+}
+
+message S3Backend {
+  string bucket = 1;
+  string region = 2;
+  string access_key = 3;
+  string secret_key = 4;
+  string session_token = 5;
+}
+
+message AzureBlobBackend {
+  string storage_account = 1;
+  string container = 2;
+  string access_key = 3;
+  string sas_token = 4;
+}
+
+// Resource definition
+message Resource {
+  string type = 1;
+  string name = 2;
+  map<string, Value> properties = 3;
+  repeated string depends_on = 4;
+  string provider = 5;
+}
+
+// Generic value type that can hold different data types
+message Value {
+  oneof value {
+    string string_value = 1;
+    int64 int_value = 2;
+    double double_value = 3;
+    bool bool_value = 4;
+    ValueList list_value = 5;
+    ValueMap map_value = 6;
+    bytes bytes_value = 7;
+  }
+}
+
+message ValueList {
+  repeated Value values = 1;
+}
+
+message ValueMap {
+  map<string, Value> fields = 1;
+}
+
+// Response message for Pulumi operations
+message PulumiResponse {
+  bool success = 1;
+  string error = 2;
+  bytes data = 3;
+  repeated OutputItem outputs = 4;
+}
+
+message OutputItem {
+  string resource_name = 1;
+  string output_name = 2;
+  Value value = 3;
+}
+
+// Event messages
+message Event {
+  oneof event {
+    PreludeEvent prelude = 1;
+    SummaryEvent summary = 2;
+    ResourcePreEvent resource_pre = 3;
+    ResOutputsEvent resource_outputs = 4;
+    ResOpFailedEvent resource_failed = 5;
+    DiagnosticEvent diagnostic = 6;
+    PolicyEvent policy = 7;
+    ProgressEvent progress = 8;
+  }
+}
+
+message PreludeEvent {
+  map<string, string> config = 1;
+}
+
+message SummaryEvent {
+  bool may_change = 1;
+  int32 duration_seconds = 2;
+  map<string, int32> resource_changes = 3;
+}
+
+message ResourcePreEvent {
+  ResourceMetadata metadata = 1;
+  bool planning = 2;
+}
+
+message ResOutputsEvent {
+  ResourceMetadata metadata = 1;
+  bool planning = 2;
+}
+
+message ResOpFailedEvent {
+  ResourceMetadata metadata = 1;
+  int32 status = 2;
+  int32 steps = 3;
+}
+
+message DiagnosticEvent {
+  string urn = 1;
+  string prefix = 2;
+  string message = 3;
+  string color = 4;
+  string severity = 5;
+}
+
+message PolicyEvent {
+  string resource_urn = 1;
+  string message = 2;
+  string color = 3;
+  repeated PolicyConfig policy_config = 4;
+}
+
+message PolicyConfig {
+  string name = 1;
+  string version = 2;
+}
+
+message ProgressEvent {
+  string message = 1;
+}
+
+message ResourceMetadata {
+  string op = 1;
+  string urn = 2;
+  string type = 3;
+  bool old = 4;
+  bool new = 5;
+}
+
+// Callback registration
+message RegisterCallbackRequest {
+  int32 callback_type = 1;
+}
+
+message RegisterCallbackResponse {
+  bool success = 1;
+}

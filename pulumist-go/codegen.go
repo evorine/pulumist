@@ -28,7 +28,7 @@ func main() {
 
 	// Generate the protobuf code
 	gopath := build.Default.GOPATH
-	cmd := exec.Command("protoc", "--proto_path=../proto", "--go_out=./", "--go_opt=paths=source_relative", "pulumist.proto")
+	cmd := exec.Command("protoc", "--proto_path=../proto", "--go_out=./generated/", "--go_opt=paths=source_relative", "pulumist.proto")
 	// Add "$GOPATH/bin" to the PATH
 	cmd.Env = append(os.Environ(), "PATH="+gopath+"/bin:"+os.Getenv("PATH"))
 	cmd.Stdout = os.Stdout
