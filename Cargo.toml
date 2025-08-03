@@ -1,7 +1,7 @@
 [package]
 name = "pulumist"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
 serde = { version = "1.0.219", features = ["derive"] }
@@ -13,6 +13,14 @@ prost = "0.14.1"
 bytes = "1.10.1"
 base64 = "0.22.1"
 thiserror = "1.0"
+tokio = { version = "1.47.1", features = ["rt", "macros"] }
 
 [build-dependencies]
 prost-build = "0.14.1"
+
+[dev-dependencies]
+tokio = { version = "1.47.1", features = ["full"] }
+
+[[example]]
+name = "with-references"
+path = "examples/with_references.rs"

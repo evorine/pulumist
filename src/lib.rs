@@ -1,11 +1,11 @@
-mod events;
-mod outputs;
-mod proto;
-mod config;
-mod engine;
-mod error;
-mod stack;
-mod dynamic;
+pub mod events;
+pub mod outputs;
+pub mod proto;
+pub mod config;
+pub mod engine;
+pub mod error;
+pub mod stack;
+pub mod dynamic;
 
 use std::os::raw::c_char;
 

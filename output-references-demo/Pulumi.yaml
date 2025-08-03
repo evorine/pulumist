@@ -1,0 +1,3 @@
+name: output-references-demo
+runtime: go
+main: /mnt/v/Mistwatch/pulumist
