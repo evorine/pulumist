@@ -2,7 +2,7 @@
 
 //go:generate go run codegen.go
 
-package pulumist
+package main
 
 /*
 #include <stdlib.h>
@@ -459,3 +459,6 @@ func createOkResponse(outputs []*pb.OutputItem) *C.char {
 func FreeAllocation(obj *C.char) {
 	C.free(unsafe.Pointer(obj))
 }
+
+// This is a no-op main function to satisfy the compiler toolchain.
+func main() {}

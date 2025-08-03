@@ -1,4 +1,4 @@
-package pulumist
+package main
 
 /*
 #include <stdlib.h>
