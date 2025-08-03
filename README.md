@@ -21,11 +21,9 @@ Pulumist provides a high-level interface to Pulumi's Automation API through a FF
 ┌──────────────────────────────────────────────────────────┐
 │                     User Application                     │
 ├──────────────────────────────────────────────────────────┤
-│                   pulumist-core (Rust)                   │
+│                   pulumist (Rust)                        │
 │  • PulumiEngine    • Stack         • Event Handlers      │
 │  • Builders        • Error Types   • Resource Types      │
-├──────────────────────────────────────────────────────────┤
-│                   pulumist-ffi (Rust)                    │
 │  • FFI Bindings    • Type Marshaling                     │
 │  • Event Channel   • Safety Wrappers                     │
 ├──────────────────────────────────────────────────────────┤
@@ -41,8 +39,9 @@ Pulumist provides a high-level interface to Pulumi's Automation API through a FF
 
 Its core components:
 
-- **pulumist-core**: The high-level Rust API that applications interact with.
-- **pulumist-ffi**: The FFI layer that bridges Rust and Go.
+- **pulumist**:
+  - The high-level Rust API that applications interact with
+  - The FFI layer that bridges Rust and Go.
 - **pulumist-go**: The Go library that wraps Pulumi's Automation API and provides dynamic resource management.
 
 ### FFI Bridge Design

@@ -3,15 +3,15 @@ use std::path::PathBuf;
 use std::process::Command;
 
 fn main() {
-    println!("cargo:rerun-if-changed=../pulumist-go/");
-    println!("cargo:rerun-if-changed=../proto/");
+    println!("cargo:rerun-if-changed=pulumist-go/");
+    println!("cargo:rerun-if-changed=proto/");
     
     // Generate protobuf code
-    prost_build::compile_protos(&["../proto/pulumist.proto"], &["../proto/"])
+    prost_build::compile_protos(&["proto/pulumist.proto"], &["proto/"])
         .expect("Failed to compile protobuf");
     
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let go_dir = PathBuf::from("../pulumist-go");
+    let go_dir = PathBuf::from("pulumist-go");
     
     // Build the Go library as a static library
     let output = Command::new("go")

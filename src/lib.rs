@@ -1,3 +1,7 @@
+mod events;
+mod outputs;
+mod proto;
+
 use std::os::raw::c_char;
 
 // FFI bindings to Go functions

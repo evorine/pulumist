@@ -2,7 +2,7 @@
 
 This is an FFI-compatible Go library that provides a wrapper around Pulumi's Automation API for Go.
 
-It has been designed to be used from `pulumist-ffi` crate developed in Rust.
+It has been designed to be used from `pulumist` crate developed in Rust.
 
 ## How Pulumist Communicates with Pulumi
 
