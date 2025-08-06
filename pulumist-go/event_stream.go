@@ -30,9 +30,7 @@ var (
 //
 // The callback will receive length-prefixed protobuf-encoded Event messages.
 //
-// Thread safety:
-//   - // TODO: NOT thread-safe. We should protect with mutex.
-//   - Callback may be invoked from different goroutines
+// TODO: Thread safety: NOT thread-safe. We should protect with mutex.
 //
 // Memory management:
 //   - Event data is freed by the sender after callback returns
@@ -52,9 +50,10 @@ func UnregisterEventCallback() {
 // sendEvent serializes an event to protobuf and sends it to the registered host callback.
 // This enables real-time streaming of operation progress back to the host application.
 //
-// Safety Notes:
-// - Accesses global currentEventCallback without synchronization (race condition)
-// - C.CString allocates memory that is freed by C runtime after callback returns
+// TODO: Thread safety: Accesses to global currentEventCallback might have race condition issues.
+//
+// Remarks:
+// - C.CString allocates memory that should be freed by C runtime after callback returns.
 // - If callback panics/throws in host, it could corrupt memory. But whatever, if the host panics, we can't recover anyway.
 func emitEvent(event *pb.Event) {
 	// Event callback registration is optional.
