@@ -212,7 +212,7 @@ func createDeploymentProgram(resources []*pb.Resource) pulumi.RunFunc {
 // Example transformations:
 //
 //	"${my-rg.id}" -> resourceOutputs["my-rg.id"] (Pulumi Output)
-//	"${storage.endpoint}" -> resourceOutputs["storage.endpoint"] (Pulumi Output)
+//	"${storage.endpoint.fqdn}" -> Nexted references are undefined behavior for now.
 //	"normal string" -> "normal string" (unchanged)
 //
 // This allows the host to specify dependencies without knowing Go types:
